@@ -6,8 +6,8 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
-	"github.com/globalsign/mgo"
 	"github.com/gocron"
+	"github.com/webdiff-job/src/db"
 )
 
 func main() {
@@ -25,20 +25,14 @@ func main() {
 
 	router.Run(":" + port)
 
-	gocron.Every(1).Minute().Do(taskWithParams, 1, "hello")
+	go func() {
+		gocron.Every(1).Minute().Do(taskWithParams, 1, "hello")
+		<-gocron.Start()
+	}()
 }
 
 func Ping(c *gin.Context) {
-	env := os.Getenv("ENVIRONMENT")
-	var url string
-
-	if env == "PRODUCTION" {
-		url = "mongodb://api:dM6CYayNQu8qr9b@ds147003.mlab.com:47003/heroku_rvdsxf5j"
-	} else {
-		url = "localhost"
-	}
-	session, err := mgo.Dial(url)
-
+	session, err := db.GetMongoSession()
 	if err != nil {
 		fmt.Printf("Can't connect to mongo, go error %v\n", err)
 		c.JSON(599, gin.H{
@@ -46,8 +40,7 @@ func Ping(c *gin.Context) {
 		})
 		return
 	}
-	session.SetSafe(&mgo.Safe{})
-	defer session.Close()
+	defer db.CloseMongoSession(session)
 
 	c.JSON(200, gin.H{
 		"message": "pong",
