@@ -1,10 +1,8 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"os"
-	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/gocron"
@@ -30,14 +28,9 @@ func main() {
 	router.POST("/start", operations.Start)
 
 	go func() {
-		gocron.Every(3).Minutes().Do(job.Job)
+		gocron.Every(600).Minutes().Do(job.Job)
 		<-gocron.Start()
 	}()
 
 	router.Run(":" + port)
-}
-
-func taskWithParams(a int, b string) {
-	fmt.Println(time.Now().Format(time.RFC850))
-	fmt.Println(a, b)
 }

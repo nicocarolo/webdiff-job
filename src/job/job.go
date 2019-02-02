@@ -9,7 +9,6 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-	"os"
 
 	"github.com/globalsign/mgo"
 	"github.com/globalsign/mgo/bson"
@@ -65,12 +64,12 @@ func Inspect(webs []models.Web, collection *mgo.Collection) map[string][]models.
 		strChecksum := hex.EncodeToString(checksum[:])
 
 		if strChecksum != web.Web {
-			if web.Url == "https://www.jumbo.com.ar/almacen/desayuno-y-merienda/cafes?PS=18" {
-				// fmt.Println("NOTIFICAAAAAA")
-				// fmt.Println(string(contents[:]))
-				f, _ := os.Create("/tmp/web.txt")
-				f.Write(contents)
-			}
+			// if web.Url == "https://www.jumbo.com.ar/almacen/desayuno-y-merienda/cafes?PS=18" {
+			// 	// fmt.Println("NOTIFICAAAAAA")
+			// 	// fmt.Println(string(contents[:]))
+			// 	f, _ := os.Create("/tmp/web.txt")
+			// 	f.Write(contents)
+			// }
 			log.Println(fmt.Sprintf("Updating %s from %s", web.Web, web.Url))
 			web.Web = strChecksum
 			err = collection.Update(bson.M{"_id": web.Id}, web)
