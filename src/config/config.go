@@ -24,7 +24,7 @@ func GetScrapperURL() string {
 	if env == "PRODUCTION" {
 		url = "https://go-price-scrapper.herokuapp.com/%s"
 	} else {
-		url = "localhost:3000/%s"
+		url = "http://localhost:3000/%s"
 	}
 	return url
 }

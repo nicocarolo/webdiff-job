@@ -81,7 +81,7 @@ func Inspect(webs []models.Web, collection *mgo.Collection) map[string][]models.
 				log.Println(fmt.Sprintf("Notifying %s from %s", web.Url, web.WebId))
 				values := map[string]string{"merchant": web.WebId}
 				jsonValue, _ := json.Marshal(values)
-				response, httperror = http.Post(fmt.Sprintf(config.GetScrapperURL(), "/process"),
+				response, httperror = http.Post(fmt.Sprintf(config.GetScrapperURL(), "process"),
 					"application/json", bytes.NewBuffer(jsonValue))
 				if httperror != nil {
 					log.Println(fmt.Errorf("Error while post to scrapper: %s", httperror.Error()))

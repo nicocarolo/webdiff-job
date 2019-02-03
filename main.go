@@ -28,7 +28,7 @@ func main() {
 	router.POST("/start", operations.Start)
 
 	go func() {
-		gocron.Every(600).Minutes().Do(job.Job)
+		gocron.Every(480).Minutes().Do(job.Job)
 		<-gocron.Start()
 	}()
 
