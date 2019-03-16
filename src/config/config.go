@@ -5,6 +5,10 @@ import "os"
 const WebDB = "heroku_rvdsxf5j"
 const WebCollection = "webs"
 
+const MinutesToJob = 5
+
+// const MinutesToJob = 480
+
 func GetURLDB() string {
 	env := os.Getenv("ENVIRONMENT")
 	var url string

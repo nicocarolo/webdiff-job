@@ -6,6 +6,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/gocron"
+	"github.com/webdiff-job/src/config"
 	"github.com/webdiff-job/src/job"
 	"github.com/webdiff-job/src/operations"
 )
@@ -28,7 +29,7 @@ func main() {
 	router.POST("/start", operations.Start)
 
 	go func() {
-		gocron.Every(480).Minutes().Do(job.Job)
+		gocron.Every(config.MinutesToJob).Minutes().Do(job.Job)
 		<-gocron.Start()
 	}()
 
